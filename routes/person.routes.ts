@@ -8,4 +8,7 @@ personRouter.post("/", personController.createPerson)
 personRouter.get("/:id", personController.getPersonById)
 
 
-export default personRouter
+
+
+
+export default personRouter;
