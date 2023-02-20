@@ -2,13 +2,13 @@ import { Request, Response } from "express";
 import pool from "../../db";
 import { IPersonController } from "./model";
 
-class PersonController implements IPersonController {
+export class PersonController implements IPersonController {
   async createPerson(req: Request, res: Response) {
     const client = await pool.connect()
  
     try {
       await client.query('BEGIN')
-      const personQueryTxt = 'INSERT INTO person (recipes_likes_ids, products_ids) RETURNING *'
+      const personQueryTxt = 'INSERT INTO person values(default) RETURNING *'
       const personRes = await client.query(personQueryTxt)
       const person = personRes.rows[0]
      
@@ -38,5 +38,3 @@ class PersonController implements IPersonController {
     res.json({status: "ok", person: person.rows[0]})
   }
 }
-
-export default PersonController;

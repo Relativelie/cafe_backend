@@ -7,6 +7,7 @@
     "start": "ts-node-esm server.ts",
     "dev": "nodemon server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write src --config ./.prettierrc.js",
     "prepare": "husky install"
   },
   "keywords": [],
@@ -20,6 +21,7 @@
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
+    "@types/pg": "^8.6.6",
     "concurrently": "^7.6.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.4",

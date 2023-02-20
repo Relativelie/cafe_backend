@@ -17,7 +17,6 @@ class LikesController implements ILikesController {
         )
         res.json({status: "ok", likes: likes.rows[0].likes_list})
     }
-
 }
 
 module.exports = new LikesController();
