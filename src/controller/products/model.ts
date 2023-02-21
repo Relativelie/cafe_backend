@@ -1,18 +1,22 @@
 import { Request, Response } from "express";
 
-export interface ProductReq extends Request {
+export interface GetProductReq extends Request {
   params: {
     id: string;
   };
 }
 
-export interface ProductRes extends Response {
+export interface PutProductReq extends Request {
+  params: {
+    id: string;
+  };
   body: {
-    status: string;
-    products: string[];
+    products: number[];
   };
 }
+export type ProductRes = Response<{ products: string[] }>
 
 export interface IProductsController {
-  getProductsByPersonId: (req: ProductReq, res: ProductRes) => void;
+  getProductsByPersonId: (req: GetProductReq, res: ProductRes) => void;
+  updateProductsById: (req: PutProductReq, res: ProductRes) => void;
 }

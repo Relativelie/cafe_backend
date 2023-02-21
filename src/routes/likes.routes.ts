@@ -1,9 +1,11 @@
 import { Router } from "express";
+import { LikesController } from "../controller/likes/likes.controller";
 
-const router = Router()
-const likesController = require("../controller/likes.controller")
+const likesRouter = Router();
 
-router.get("/likes:id", likesController.getLikesById)
+const likesController = new LikesController();
 
+likesRouter.get("/:id", likesController.getLikesByPersonId);
+likesRouter.put("/:id", likesController.updateLikesById);
 
-module.exports = router
+export default likesRouter;

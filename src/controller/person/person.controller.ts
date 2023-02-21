@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { Request } from "express";
 import pool from "../../db";
-import { IPersonController } from "./model";
+import { IPersonController, PersonReq, PersonRes } from "./model";
 
 export class PersonController implements IPersonController {
-  async createPerson(req: Request, res: Response) {
+  async createPerson(req: Request, res: PersonRes) {
     const client = await pool.connect();
 
     try {
@@ -23,7 +23,7 @@ export class PersonController implements IPersonController {
 
       await client.query("COMMIT");
 
-      res.json({ status: "ok", person });
+      res.status(200).json({ person });
     } catch (e) {
       await client.query("ROLLBACK");
       throw e;
@@ -32,9 +32,9 @@ export class PersonController implements IPersonController {
     }
   }
 
-  async getPersonById(req: Request, res: Response) {
+  async getPersonById(req: PersonReq, res: PersonRes) {
     const id = req.params.id;
     const person = await pool.query("select * from person where id = $1", [id]);
-    res.json({ status: "ok", person: person.rows[0] });
+    res.status(200).json({ person: person.rows[0] });
   }
 }

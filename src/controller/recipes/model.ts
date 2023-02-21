@@ -6,13 +6,10 @@ type Recipe = {
   link_id: string;
 };
 
-type AllRecipesResBody = {
-  status: string;
-  recipes: {
-    items: Recipe[];
-    from: string;
-    limit: string;
-  };
+type Recipes = {
+  items: Recipe[];
+  from: string;
+  limit: string;
 };
 
 export interface AllRecipesReq extends Request {
@@ -22,9 +19,7 @@ export interface AllRecipesReq extends Request {
   };
 }
 
-export interface AllRecipesRes extends Response {
-  body: AllRecipesResBody;
-}
+export type AllRecipesRes = Response<Recipes>
 
 export interface RecipeReq extends Request {
   params: {
@@ -32,14 +27,17 @@ export interface RecipeReq extends Request {
   };
 }
 
-export interface RecipeRes extends Response {
+export type RecipeRes = Response<Recipe>
+
+export interface CreateRecipeReq extends Request {
   body: {
-    status: string;
-    recipe: Recipe;
+    title: string;
+    link_id: number;
   };
 }
 
 export interface IRecipesController {
   getRecipeById: (req: RecipeReq, res: RecipeRes) => void;
   getAllRecipes: (req: AllRecipesReq, res: AllRecipesRes) => void;
+  createRecipe: (req: CreateRecipeReq, res: AllRecipesRes) => void;
 }

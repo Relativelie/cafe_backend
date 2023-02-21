@@ -10,12 +10,9 @@ export interface PersonReq extends Request {
   };
 }
 
-export interface PersonRes extends Response {
-  body: {
-    status: string;
+export type PersonRes = Response<{
     person: Person;
-  };
-}
+  }>
 
 export interface IPersonController {
   createPerson: (req: Request, res: PersonRes) => void;

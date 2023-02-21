@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "start": "ts-node-esm server.ts",
-    "dev": "nodemon server.ts",
+    "start": "ts-node-esm src/server.ts",
+    "dev": "nodemon src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write src --config ./.prettierrc.js",
     "prepare": "husky install"
@@ -22,7 +22,10 @@
   },
   "devDependencies": {
     "@types/pg": "^8.6.6",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
     "concurrently": "^7.6.0",
+    "eslint": "^8.34.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.4",
     "pretty-quick": "^3.1.3",

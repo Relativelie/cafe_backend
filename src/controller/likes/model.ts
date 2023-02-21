@@ -15,12 +15,7 @@ export interface UpdateLikesReq extends Request {
   };
 }
 
-export interface LikesRes extends Response {
-  body: {
-    status: string;
-    likes: number[];
-  };
-}
+export type LikesRes = Response<{ likes: number[] }>
 
 export interface ILikesController {
   getLikesByPersonId: (req: GetLikesReq, res: LikesRes) => void;
