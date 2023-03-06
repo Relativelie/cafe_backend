@@ -11,10 +11,18 @@ export interface PersonReq extends Request {
 }
 
 export type PersonRes = Response<{
-    person: Person;
-  }>
+  person: Person;
+}>;
 
 export interface IPersonController {
   createPerson: (req: Request, res: PersonRes) => void;
   getPersonById: (req: PersonReq, res: PersonRes) => void;
 }
+
+export type User = {
+  id: string;
+  email: string;
+  password: string;
+  isActivated: boolean;
+  activationLink: string;
+};

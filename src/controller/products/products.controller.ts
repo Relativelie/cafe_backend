@@ -12,9 +12,7 @@ export class ProductsController implements IProductsController {
 
   async updateProductsById(req: PutProductReq, res: ProductRes) {
     const userId = req.params.id;
-    console.log(req.body);
     const newProductsList = req.body.products;
-    console.log("newProductsList", newProductsList);
     const products = await pool.query(
       "update products set products_list = $1 where user_id = $2 RETURNING *",
       [newProductsList, userId],
