@@ -1,8 +1,16 @@
 import jwt from "jsonwebtoken";
 import pool from "../db";
 
-interface ITokenService {
-  generateTokens: (payload: any) => void;
+type UserToken = {
+  user_id: number;
+  refresh_token: string;
+};
+
+export type Tokens = { accessToken: string; refreshToken: string };
+
+export interface ITokenService {
+  generateTokens: (payload: any) => Tokens;
+  saveToKen: (userId: string, refreshToken: string) => Promise<UserToken>;
 }
 export class TokenService implements ITokenService {
   generateTokens(payload: any) {
@@ -20,15 +28,16 @@ export class TokenService implements ITokenService {
       userId,
     ]);
     if (existedToken) {
-      return await pool.query("update token SET refresh_token = $1 WHERE user_id = $2", [
-        refreshToken,
-        userId,
-      ]);
+      const token = await pool.query(
+        "update token SET refresh_token = $1 WHERE user_id = $2 RETURNING *",
+        [refreshToken, userId],
+      );
+      return token.rows[0] as UserToken;
     }
     const token = await pool.query(
       "INSERT INTO token (user_id, refresh_token) values ($1, $2) RETURNING *",
       [userId, refreshToken],
     );
-    return token;
+    return token.rows[0] as UserToken;
   }
 }

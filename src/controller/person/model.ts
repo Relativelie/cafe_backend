@@ -23,6 +23,6 @@ export type User = {
   id: string;
   email: string;
   password: string;
-  isActivated: boolean;
-  activationLink: string;
+  is_activated: boolean;
+  activation_link: string;
 };

@@ -8,8 +8,8 @@ create TABLE users(
     id SERIAL PRIMARY KEY,
     email VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
-    isActivated BOOLEAN,
-    activationLink VARCHAR(100)
+    is_activated BOOLEAN ,
+    activation_link VARCHAR(100)
 );
 
 create TABLE products(
