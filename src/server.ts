@@ -7,6 +7,7 @@ import likesRouter from "./routes/likes.routes";
 import productsRouter from "./routes/products.routes";
 import recipesRouter from "./routes/recipes.routes";
 import authRouter from "./routes/auth.routes";
+import { errorMiddleware } from "./middlewares/error-middleware";
 
 dotenv.config();
 const PORT = process.env.PORT || 8080;
@@ -22,5 +23,9 @@ app.use("/likes", likesRouter);
 app.use("/products", productsRouter);
 app.use("/recipes", recipesRouter);
 app.use("/", authRouter);
+
+app.use((err: any, req: any, res: any, next: any) =>
+  errorMiddleware(err, req, res, next),
+);
 
 app.listen(PORT, () => console.log("server was started"));

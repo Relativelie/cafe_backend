@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import pool from "../db";
 
-type UserToken = {
+export type UserToken = {
   user_id: number;
   refresh_token: string;
 };
@@ -11,6 +11,10 @@ export type Tokens = { accessToken: string; refreshToken: string };
 export interface ITokenService {
   generateTokens: (payload: any) => Tokens;
   saveToKen: (userId: string, refreshToken: string) => Promise<UserToken>;
+  removeToken: (refreshToken: string) => Promise<UserToken>;
+  validateAccessToken: (token: string) => string | jwt.JwtPayload | null;
+  validateRefreshToken: (token: string) => string | jwt.JwtPayload | null;
+  findToken: (refreshToken: string) => Promise<any>;
 }
 export class TokenService implements ITokenService {
   generateTokens(payload: any) {
@@ -27,7 +31,7 @@ export class TokenService implements ITokenService {
     const existedToken = await pool.query("select * from token where user_id = $1", [
       userId,
     ]);
-    if (existedToken) {
+    if (existedToken.rows[0]) {
       const token = await pool.query(
         "update token SET refresh_token = $1 WHERE user_id = $2 RETURNING *",
         [refreshToken, userId],
@@ -39,5 +43,39 @@ export class TokenService implements ITokenService {
       [userId, refreshToken],
     );
     return token.rows[0] as UserToken;
+  }
+
+  async removeToken(refreshToken: string) {
+    const tokenData = await pool.query(
+      "delete from token where refresh_token=$1 returning *",
+      [refreshToken],
+    );
+    return tokenData.rows[0];
+  }
+
+  validateAccessToken(token: string) {
+    try {
+      const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET!);
+      return userData;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  validateRefreshToken(token: string) {
+    try {
+      const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET!);
+      return userData;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async findToken(refreshToken: string) {
+    const existedToken = await pool.query(
+      "select * from token where refresh_token = $1",
+      [refreshToken],
+    );
+    return existedToken.rows[0];
   }
 }
