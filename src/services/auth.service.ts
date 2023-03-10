@@ -87,7 +87,7 @@ export class AuthService implements IAuthService {
   async setTokens(user: User): Promise<UserData> {
     const userDto = new UserDto(user);
     const tokens = this.tokenService.generateTokens({ ...userDto });
-    await this.tokenService.saveToKen(userDto.id, tokens.refreshToken);
+    await this.tokenService.saveToken(userDto.id, tokens.refreshToken);
     return {
       ...tokens,
       user: userDto,

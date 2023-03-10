@@ -1,5 +1,4 @@
 import nodemailer, { TransportOptions } from "nodemailer";
-import pool from "../db";
 
 const mailOptions = {
   host: process.env.SMTP_HOST,

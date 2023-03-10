@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import pool from "../db";
+import { UserDto } from "../dto/UserDto";
 
 export type UserToken = {
   user_id: number;
@@ -9,15 +10,15 @@ export type UserToken = {
 export type Tokens = { accessToken: string; refreshToken: string };
 
 export interface ITokenService {
-  generateTokens: (payload: any) => Tokens;
-  saveToKen: (userId: string, refreshToken: string) => Promise<UserToken>;
+  generateTokens: (payload: UserDto) => Tokens;
+  saveToken: (userId: string, refreshToken: string) => Promise<UserToken>;
   removeToken: (refreshToken: string) => Promise<UserToken>;
   validateAccessToken: (token: string) => string | jwt.JwtPayload | null;
   validateRefreshToken: (token: string) => string | jwt.JwtPayload | null;
-  findToken: (refreshToken: string) => Promise<any>;
+  findToken: (refreshToken: string) => Promise<UserToken>;
 }
 export class TokenService implements ITokenService {
-  generateTokens(payload: any) {
+  generateTokens(payload: UserDto) {
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET!, {
       expiresIn: "30m",
     });
@@ -27,29 +28,25 @@ export class TokenService implements ITokenService {
     return { accessToken, refreshToken };
   }
 
-  async saveToKen(userId: string, refreshToken: string) {
+  async saveToken(userId: string, refreshToken: string) {
     const existedToken = await pool.query("select * from token where user_id = $1", [
       userId,
     ]);
     if (existedToken.rows[0]) {
-      const token = await pool.query(
-        "update token SET refresh_token = $1 WHERE user_id = $2 RETURNING *",
-        [refreshToken, userId],
-      );
+      const updatingQuery =
+        "update token SET refresh_token = $1 WHERE user_id = $2 RETURNING *";
+      const token = await pool.query(updatingQuery, [refreshToken, userId]);
       return token.rows[0] as UserToken;
     }
-    const token = await pool.query(
-      "INSERT INTO token (user_id, refresh_token) values ($1, $2) RETURNING *",
-      [userId, refreshToken],
-    );
+    const creatingQuery =
+      "INSERT INTO token (user_id, refresh_token) values ($1, $2) RETURNING *";
+    const token = await pool.query(creatingQuery, [userId, refreshToken]);
     return token.rows[0] as UserToken;
   }
 
   async removeToken(refreshToken: string) {
-    const tokenData = await pool.query(
-      "delete from token where refresh_token=$1 returning *",
-      [refreshToken],
-    );
+    const deletingQuery = "delete from token where refresh_token=$1 returning *";
+    const tokenData = await pool.query(deletingQuery, [refreshToken]);
     return tokenData.rows[0];
   }
 
