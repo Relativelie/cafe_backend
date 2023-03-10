@@ -24,8 +24,6 @@ app.use("/products", productsRouter);
 app.use("/recipes", recipesRouter);
 app.use("/", authRouter);
 
-app.use((err: any, req: any, res: any, next: any) =>
-  errorMiddleware(err, req, res, next),
-);
+app.use(errorMiddleware);
 
 app.listen(PORT, () => console.log("server was started"));
