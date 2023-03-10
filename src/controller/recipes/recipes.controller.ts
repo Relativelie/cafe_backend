@@ -1,4 +1,5 @@
-import pool from "../../db";
+import { NextFunction } from "express";
+import { IRecipesService } from "../../services/recipes.service";
 import {
   AllRecipesReq,
   AllRecipesRes,
@@ -9,27 +10,35 @@ import {
 } from "./model";
 
 export class RecipesController implements IRecipesController {
-  async getRecipeById(req: RecipeReq, res: RecipeRes) {
-    const recipeId = req.params.id;
-    const recipe = await pool.query("select * from recipes where id = $1", [recipeId]);
-    res.status(200).json(recipe.rows[0]);
+  constructor(public recipeService: IRecipesService) {}
+
+  async getRecipe(req: RecipeReq, res: RecipeRes, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const recipe = await this.recipeService.getRecipeById(id);
+      res.status(200).json(recipe);
+    } catch (e) {
+      next(e);
+    }
   }
 
-  async getAllRecipes(req: AllRecipesReq, res: AllRecipesRes) {
-    const { from, limit } = req.query;
-    const recipe = await pool.query("select * from recipes offset $1 limit $2", [
-      from,
-      limit,
-    ]);
-    res.status(200).json({ items: recipe.rows, from, limit });
+  async getAllRecipes(req: AllRecipesReq, res: AllRecipesRes, next: NextFunction) {
+    try {
+      const { from, limit } = req.query;
+      const recipes = await this.recipeService.getAllRecipes(from, limit);
+      res.status(200).json({ items: recipes, from, limit });
+    } catch (e) {
+      next(e);
+    }
   }
 
-  async createRecipe(req: CreateRecipeReq, res: AllRecipesRes) {
-    const { title, link_id } = req.body;
-    const recipe = await pool.query(
-      "insert into recipes (title, link_id) values ($1, $2) RETURNING *",
-      [title, link_id],
-    );
-    res.status(200).json(recipe.rows[0]);
+  async createRecipe(req: CreateRecipeReq, res: RecipeRes, next: NextFunction) {
+    try {
+      const { title, link_id } = req.body;
+      const recipe = await this.recipeService.createRecipe(title, link_id);
+      res.status(200).json(recipe);
+    } catch (e) {
+      next(e);
+    }
   }
 }

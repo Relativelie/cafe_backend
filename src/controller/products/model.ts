@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 export interface GetProductReq extends Request {
   params: {
@@ -11,12 +11,12 @@ export interface PutProductReq extends Request {
     id: string;
   };
   body: {
-    products: number[];
+    products: string[];
   };
 }
-export type ProductRes = Response<{ products: string[] }>
+export type ProductRes = Response<{ products: string[] }>;
 
 export interface IProductsController {
-  getProductsByPersonId: (req: GetProductReq, res: ProductRes) => void;
-  updateProductsById: (req: PutProductReq, res: ProductRes) => void;
+  getProducts: (req: GetProductReq, res: ProductRes, next: NextFunction) => void;
+  updateProducts: (req: PutProductReq, res: ProductRes, next: NextFunction) => void;
 }

@@ -1,6 +1,12 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
-type Recipe = {
+export interface IRecipesController {
+  getRecipe: (req: RecipeReq, res: RecipeRes, next: NextFunction) => void;
+  getAllRecipes: (req: AllRecipesReq, res: AllRecipesRes, next: NextFunction) => void;
+  createRecipe: (req: CreateRecipeReq, res: RecipeRes, next: NextFunction) => void;
+}
+
+export type Recipe = {
   id: number;
   title: string;
   link_id: string;
@@ -19,7 +25,7 @@ export interface AllRecipesReq extends Request {
   };
 }
 
-export type AllRecipesRes = Response<Recipes>
+export type AllRecipesRes = Response<Recipes>;
 
 export interface RecipeReq extends Request {
   params: {
@@ -27,17 +33,11 @@ export interface RecipeReq extends Request {
   };
 }
 
-export type RecipeRes = Response<Recipe>
+export type RecipeRes = Response<Recipe>;
 
 export interface CreateRecipeReq extends Request {
   body: {
     title: string;
-    link_id: number;
+    link_id: string;
   };
-}
-
-export interface IRecipesController {
-  getRecipeById: (req: RecipeReq, res: RecipeRes) => void;
-  getAllRecipes: (req: AllRecipesReq, res: AllRecipesRes) => void;
-  createRecipe: (req: CreateRecipeReq, res: AllRecipesRes) => void;
 }

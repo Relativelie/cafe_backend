@@ -7,7 +7,7 @@ import { UserDto } from "../dto/UserDto";
 import { ApiError } from "../exceptions/api-error";
 import { errorTexts } from "../constants/error-texts";
 import { UserData } from "../controller/auth/model";
-import { User } from "../controller/person/model";
+import { User } from "../controller/user/model";
 
 export interface IAuthService {
   registration: (email: string, pass: string) => Promise<UserData>;
