@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ApiError } from "@exceptions/api-error";
-import { TokenService } from "@services";
+import { TokenService } from "@services/token.service";
 
 const tokenService = new TokenService();
 
