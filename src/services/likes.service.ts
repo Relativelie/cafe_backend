@@ -1,4 +1,4 @@
-import pool from "../db";
+import pool from "db";
 
 export interface ILikesService {
   getLikesByUserId: (id: string) => Promise<number[]>;

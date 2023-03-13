@@ -1,15 +1,25 @@
 import { NextFunction } from "express";
-import { IProductsService } from "../../services/products.service";
-import { GetProductReq, IProductsController, ProductRes, PutProductReq } from "./model";
+import { errorTexts } from "@constants/error-texts";
+import { ApiError } from "@exceptions/api-error";
+import {
+  GetProductReq,
+  IProductsController,
+  PostProductReq,
+  ProductRes,
+  ProductsList,
+  PutProductReq,
+  Weekdays,
+} from "./model";
+import { IProductsService } from "services/products.service";
 
 export class ProductsController implements IProductsController {
   constructor(public productsService: IProductsService) {}
 
-  async getProducts(req: GetProductReq, res: ProductRes, next: NextFunction) {
+  async getProducts(req: GetProductReq, res: ProductsList, next: NextFunction) {
     try {
       const userId = req.params.id;
       const products = await this.productsService.getProductsByUserId(userId);
-      res.status(200).json({ products });
+      res.status(200).json(products);
     } catch (e) {
       next(e);
     }
@@ -18,22 +28,30 @@ export class ProductsController implements IProductsController {
   async updateProducts(req: PutProductReq, res: ProductRes, next: NextFunction) {
     try {
       const userId = req.params.id;
-      const newProductsList = req.body.products;
-      const products = await this.productsService.updateProductsByUserId(
+      const { products, weekday } = req.body;
+      const newProducts = await this.productsService.updateProducts(
         userId,
-        newProductsList,
+        weekday,
+        products,
       );
-      res.status(200).json({ products });
+      res.status(200).json(newProducts);
     } catch (e) {
       next(e);
     }
   }
 
-  async createProductsList(req: PutProductReq, res: ProductRes, next: NextFunction) {
+  async createProductsList(req: PostProductReq, res: ProductRes, next: NextFunction) {
     try {
-      const userId = req.params.id;
-      await this.productsService.createProductsList(userId);
-      res.status(200);
+      const { id, weekday, products } = req.body;
+      if (!Object.keys(Weekdays).some((item) => item === weekday)) {
+        throw ApiError.BadRequest(`${errorTexts.validation} weekday:${weekday}`);
+      }
+      const productsList = await this.productsService.createProductsList(
+        id,
+        Weekdays[weekday],
+        products,
+      );
+      res.status(200).json(productsList);
     } catch (e) {
       next(e);
     }

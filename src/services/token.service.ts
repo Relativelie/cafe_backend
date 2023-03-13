@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import pool from "../db";
-import { UserDto } from "../dto/UserDto";
+import pool from "db";
+import { UserDto } from "@dto/UserDto";
 
 export type UserToken = {
   user_id: number;

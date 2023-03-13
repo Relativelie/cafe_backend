@@ -1,5 +1,5 @@
 import { NextFunction } from "express";
-import { IRecipesService } from "../../services/recipes.service";
+import { IRecipesService } from "services/recipes.service";
 import {
   AllRecipesReq,
   AllRecipesRes,
@@ -25,7 +25,10 @@ export class RecipesController implements IRecipesController {
   async getAllRecipes(req: AllRecipesReq, res: AllRecipesRes, next: NextFunction) {
     try {
       const { from, limit } = req.query;
-      const recipes = await this.recipeService.getAllRecipes(from, limit);
+      const recipes = await this.recipeService.getAllRecipes(
+        parseInt(from),
+        parseInt(limit),
+      );
       res.status(200).json({ items: recipes, from, limit });
     } catch (e) {
       next(e);

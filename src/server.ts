@@ -8,6 +8,7 @@ import productsRouter from "./routes/products.routes";
 import recipesRouter from "./routes/recipes.routes";
 import authRouter from "./routes/auth.routes";
 import { errorMiddleware } from "./middlewares/error-middleware";
+import URLS from "./constants/urls";
 
 dotenv.config();
 const PORT = process.env.PORT || 8080;
@@ -18,11 +19,11 @@ app.use(express.json());
 app.use(cookieParser());
 // app.use(cors())
 
-app.use("/person", userRouter);
-app.use("/likes", likesRouter);
-app.use("/products", productsRouter);
-app.use("/recipes", recipesRouter);
-app.use("/", authRouter);
+app.use(URLS.USERS.BASE, userRouter);
+app.use(URLS.LIKES.BASE, likesRouter);
+app.use(URLS.PRODUCTS.BASE, productsRouter);
+app.use(URLS.RECIPES.BASE, recipesRouter);
+app.use(URLS.AUTH.BASE, authRouter);
 
 app.use(errorMiddleware);
 

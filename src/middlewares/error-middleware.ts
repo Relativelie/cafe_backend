@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ApiError } from "../exceptions/api-error";
+import { ApiError } from "@exceptions/api-error";
 
 export const errorMiddleware = (err: Error, req: Request, res: Response) => {
   console.log(err);

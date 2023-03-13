@@ -1,5 +1,6 @@
 import { NextFunction } from "express";
-import { ILikesService } from "../../services/likes.service";
+import { ILikesService } from "services/likes.service";
+
 import {
   CreateLikesReq,
   GetLikesReq,
@@ -36,7 +37,7 @@ export class LikesController implements ILikesController {
     try {
       const { id } = req.params;
       await this.likesService.createUserLikes(id);
-      res.status(200);
+      res.status(200).json();
     } catch (e) {
       next(e);
     }

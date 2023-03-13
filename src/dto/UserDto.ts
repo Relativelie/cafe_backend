@@ -1,4 +1,4 @@
-import { User } from "../controller/user/model";
+import { User } from "@controller/user";
 
 export class UserDto {
   email: string;

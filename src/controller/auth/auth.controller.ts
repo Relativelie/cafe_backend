@@ -1,10 +1,10 @@
 import { NextFunction, Response } from "express";
 import { validationResult } from "express-validator";
-import { errorTexts } from "../../constants/error-texts";
-import { ApiError } from "../../exceptions/api-error";
+import { errorTexts } from "@constants/error-texts";
+import { ApiError } from "@exceptions/api-error";
 import { ActivateReq, CommonReq, CommonRes, CookiesReq, IAuthController } from "./model";
-import { IAuthService } from "../../services/auth.service";
-import { UserToken } from "../../services/token.service";
+import { IAuthService } from "services/auth.service";
+import { UserToken } from "services/token.service";
 
 export class AuthController implements IAuthController {
   constructor(public clientAuthService: IAuthService) {}

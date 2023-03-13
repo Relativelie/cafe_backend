@@ -1,12 +1,13 @@
 import { Router } from "express";
-import { UserController } from "../controller/user/user.controller";
-import { UserService } from "../services/user.service";
+import { authMiddleware } from "@middlewares/auth-middleware";
+import { UserController } from "@controller/index";
+import { UserService } from "@services";
 
 const userRouter = Router();
 
 const userService = new UserService();
 const userController = new UserController(userService);
 
-userRouter.get("/:id", userController.getUserById.bind(userController));
+userRouter.get("/:id", authMiddleware, userController.getUserById.bind(userController));
 
 export default userRouter;

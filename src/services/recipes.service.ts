@@ -1,9 +1,9 @@
-import { Recipe } from "../controller/recipes/model";
-import pool from "../db";
+import { Recipe } from "@controller/recipes";
+import pool from "db";
 
 export interface IRecipesService {
   getRecipeById: (recipeId: string) => Promise<Recipe>;
-  getAllRecipes: (from: string, limit: string) => Promise<Recipe[]>;
+  getAllRecipes: (from: number, limit: number) => Promise<Recipe[]>;
   createRecipe: (title: string, link_id: string) => Promise<Recipe>;
 }
 
@@ -13,9 +13,9 @@ export class RecipesService implements IRecipesService {
     return recipe.rows[0];
   }
 
-  async getAllRecipes(from: string, limit: string) {
+  async getAllRecipes(from: number, limit: number) {
     const recipe = await pool.query("select * from recipes offset $1 limit $2", [
-      from,
+      from - 1,
       limit,
     ]);
     return recipe.rows;

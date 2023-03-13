@@ -1,5 +1,5 @@
 import { NextFunction } from "express";
-import { IUserService } from "../../services/user.service";
+import { IUserService } from "services/user.service";
 import { IPersonController as IUserController, UserReq, UserRes } from "./model";
 
 export class UserController implements IUserController {

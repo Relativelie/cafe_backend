@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { UserDto } from "../../dto/UserDto";
-import { UserToken } from "../../services/token.service";
+import { UserDto } from "@dto/UserDto";
+import { UserToken } from "services/token.service";
 
 export interface IAuthController {
   registration: (req: CommonReq, res: CommonRes, next: NextFunction) => void;
