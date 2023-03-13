@@ -2,7 +2,7 @@ import URLS from "@constants/urls";
 import { ProductsController } from "@controller/index";
 import { Router } from "express";
 import { authMiddleware } from "@middlewares/auth-middleware";
-import { ProductsService } from "@services";
+import { ProductsService } from "@services/products.service";
 
 const productsRouter = Router();
 

@@ -1,14 +1,14 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import URLS from "@constants/urls";
+import userRouter from "@routes/user.routes";
+import likesRouter from "@routes/likes.routes";
+import productsRouter from "@routes/products.routes";
+import recipesRouter from "@routes/recipes.routes";
+import authRouter from "@routes/auth.routes";
+import { errorMiddleware } from "@middlewares/error-middleware";
 // import cors from "cors"
-import userRouter from "./routes/user.routes";
-import likesRouter from "./routes/likes.routes";
-import productsRouter from "./routes/products.routes";
-import recipesRouter from "./routes/recipes.routes";
-import authRouter from "./routes/auth.routes";
-import { errorMiddleware } from "./middlewares/error-middleware";
-import URLS from "./constants/urls";
 
 dotenv.config();
 const PORT = process.env.PORT || 8080;

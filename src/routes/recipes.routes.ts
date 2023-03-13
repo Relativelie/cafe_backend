@@ -1,7 +1,7 @@
 import { Router } from "express";
 import URLS from "@constants/urls";
 import { RecipesController } from "@controller/index";
-import { RecipesService } from "@services";
+import { RecipesService } from "@services/recipes.service";
 
 const recipesRouter = Router();
 

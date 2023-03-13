@@ -1,8 +1,8 @@
 import { Router } from "express";
 import URLS from "@constants/urls";
 import { authMiddleware } from "@middlewares/auth-middleware";
-import { LikesService } from "@services";
 import { LikesController } from "@controller/index";
+import { LikesService } from "@services/likes.service";
 
 const likesRouter = Router();
 

@@ -2,7 +2,9 @@ import { Router } from "express";
 import { body } from "express-validator";
 import URLS from "@constants/urls";
 import { AuthController } from "@controller/index";
-import { AuthService, MailService, TokenService } from "@services";
+import { TokenService } from "@services/token.service";
+import { MailService } from "@services/mail.service";
+import { AuthService } from "@services/auth.service";
 
 const authRouter = Router();
 
