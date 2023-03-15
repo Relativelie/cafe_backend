@@ -5,6 +5,7 @@ import { ApiError } from "@exceptions/api-error";
 import { ActivateReq, CommonReq, CommonRes, CookiesReq, IAuthController } from "./model";
 import { IAuthService } from "services/auth.service";
 import { UserToken } from "services/token.service";
+import config from "config";
 
 export class AuthController implements IAuthController {
   constructor(public clientAuthService: IAuthService) {}
@@ -51,7 +52,7 @@ export class AuthController implements IAuthController {
     try {
       const activationLink = req.params.link;
       await this.clientAuthService.activate(activationLink);
-      return res.redirect(process.env.CLIENT_URL!);
+      return res.redirect(config.service.CLIENT_URL!);
     } catch (e) {
       next(e);
     }

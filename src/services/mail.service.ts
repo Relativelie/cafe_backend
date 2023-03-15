@@ -1,12 +1,13 @@
 import nodemailer, { TransportOptions } from "nodemailer";
+import config from "config";
 
 const mailOptions = {
-  host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
+  host: config.service.SMTP_HOST,
+  port: config.service.SMTP_PORT,
   secure: true,
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD,
+    user: config.service.SMTP_USER,
+    pass: config.service.SMTP_PASSWORD,
   },
 } as TransportOptions;
 
@@ -21,9 +22,9 @@ export class MailService implements IMailService {
   }
   async sendActivationMail(to: string, link: string) {
     await this.transporter.sendMail({
-      from: process.env.SMTP_USER,
+      from: config.service.SMTP_USER,
       to,
-      subject: `The account activation on ${process.env.API_URL}`,
+      subject: `The account activation on ${config.service.API_URL}`,
       text: "",
       html: `
       <div>

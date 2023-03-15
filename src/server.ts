@@ -8,7 +8,7 @@ import productsRouter from "@routes/products.routes";
 import recipesRouter from "@routes/recipes.routes";
 import authRouter from "@routes/auth.routes";
 import { errorMiddleware } from "@middlewares/error-middleware";
-// import cors from "cors"
+import cors from "cors";
 
 dotenv.config();
 const PORT = process.env.PORT || 8080;
@@ -17,7 +17,12 @@ const app: Express = express();
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors())
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL,
+  }),
+);
 
 app.use(URLS.USERS.BASE, userRouter);
 app.use(URLS.LIKES.BASE, likesRouter);

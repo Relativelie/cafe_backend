@@ -11,13 +11,12 @@
     "prepare": "husky install"
   },
   "nodemonConfig": {
-    "ignore":
-      [
-        "**/*.test.ts",
-        "**/*.spec.ts",
-        ".git",
-        "node_modules"
-      ],
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
     "watch": [
       "src"
     ],
@@ -28,6 +27,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^18.15.3",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

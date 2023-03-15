@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import pool from "db";
 import { UserDto } from "@dto/UserDto";
+import config from "config";
 
 export type UserToken = {
   user_id: number;
@@ -19,10 +20,10 @@ export interface ITokenService {
 }
 export class TokenService implements ITokenService {
   generateTokens(payload: UserDto) {
-    const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET!, {
+    const accessToken = jwt.sign(payload, config.service.ACCESS_SECRET!, {
       expiresIn: "30m",
     });
-    const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET!, {
+    const refreshToken = jwt.sign(payload, config.service.REFRESH_SECRET!, {
       expiresIn: "30d",
     });
     return { accessToken, refreshToken };
@@ -52,7 +53,7 @@ export class TokenService implements ITokenService {
 
   validateAccessToken(token: string) {
     try {
-      const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET!);
+      const userData = jwt.verify(token, config.service.ACCESS_SECRET!);
       return userData;
     } catch (e) {
       return null;
@@ -61,7 +62,7 @@ export class TokenService implements ITokenService {
 
   validateRefreshToken(token: string) {
     try {
-      const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET!);
+      const userData = jwt.verify(token, config.service.REFRESH_SECRET!);
       return userData;
     } catch (e) {
       return null;

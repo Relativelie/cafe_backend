@@ -38,7 +38,7 @@ export class AuthService implements IAuthService {
       false,
     ]);
     // send Email with activate link
-    // await this.mailService.sendActivationMail(email, `${process.env.API_URL}/activate/${activationLink}`);
+    // await this.mailService.sendActivationMail(email, `${config.service.API_URL}/activate/${activationLink}`);
     return await this.setTokens(newUser.rows[0]);
   }
 
